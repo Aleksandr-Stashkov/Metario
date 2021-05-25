@@ -67,6 +67,9 @@ UserSettings/
 Assets/Audio/
 Assets/Materials/
 Assets/Prefabs/
+Assets/Prefabs.meta
 Assets/Scenes/
+Assets/Scenes.meta
 Assets/Sprites/
 Assets/TextMesh Pro/
+*.log

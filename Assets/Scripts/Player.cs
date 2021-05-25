@@ -78,12 +78,11 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    private void FixedUpdate()
+    private void Update()
     {
         if (_charaterController.isGrounded)
         {
-            if(_isInJump)
+            if (_isInJump)
             {
                 _isInJump = false;
             }
@@ -92,7 +91,7 @@ public class Player : MonoBehaviour
             {
                 _verticalVelocity = _jumpSpeed;
                 _isInJump = true;
-            }            
+            }
         }
         else
         {
@@ -101,17 +100,20 @@ public class Player : MonoBehaviour
                 _verticalVelocity = _jumpSpeed;
                 _isInJump = false;
             }
-            _verticalVelocity -= _gravity;            
+            _verticalVelocity -= _gravity;
         }
+    }
 
-        _charaterController.Move(new Vector3(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, _verticalVelocity * Time.deltaTime));
+    private void FixedUpdate()
+    {
+       _charaterController.Move(new Vector3(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, _verticalVelocity * Time.deltaTime));
 
         if (transform.position.y < -7f)
         {
             _lives--;
             if (_lives <= 0)
             {
-                Application.Quit();
+                
             }
             else
             {

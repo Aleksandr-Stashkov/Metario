@@ -8,7 +8,16 @@ public class Star : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().AddStar();
+            Player player = other.GetComponent<Player>();
+            if (player == null)
+            {
+                Debug.LogError("Star could not locate Player script.");
+            }
+            else
+            {
+                player.AddStar();
+            }
+
             Destroy(gameObject);
         }
     }

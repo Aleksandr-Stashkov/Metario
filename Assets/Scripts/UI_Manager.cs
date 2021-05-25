@@ -5,21 +5,46 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    private Text _text_Score;
+    private Text _txt_Score, _txt_Lives;
 
     void Start()
     {
-        _text_Score = transform.GetChild(0).GetComponent<Text>();
-        if (_text_Score == null)
+        Transform child;
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Debug.LogError("UI Manager could not locate Score Text.");
+            child = transform.GetChild(i);
+            switch (child.name)
+            {
+                case "Score Text":
+                    _txt_Score = child.GetComponent<Text>();
+                    break;
+                case "Lives Text":
+                     _txt_Lives = child.GetComponent<Text>();
+                    break;
+                default:
+                    Debug.LogWarning("There is an unrecognized child of UI Canvas.");
+                    break;
+            }
         }
 
-        UpdateScore(0);
+        
+        if (_txt_Score == null)
+        {
+            Debug.LogError("UI Manager could not locate Score Text.");
+        }       
+        if (_txt_Lives == null)
+        {
+            Debug.LogError("UI Manager could not locate Lives Text.");
+        }        
     }
 
     public void UpdateScore(int score)
     {
-        _text_Score.text = score.ToString();
+        _txt_Score.text = "Secrets: " + score.ToString();
+    }
+
+    public void UpdateLives(int lives)
+    {
+        _txt_Lives.text = "Lives: " + lives.ToString();
     }
 }

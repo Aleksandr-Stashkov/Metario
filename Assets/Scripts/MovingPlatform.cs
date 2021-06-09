@@ -66,6 +66,15 @@ public class MovingPlatform : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.transform.parent = this.transform;
+            Player player = other.GetComponent<Player>();
+            if (player == null)
+            {
+                Debug.LogError("Moving Platform could not locate Player component on the leaving object.");
+            }
+            else
+            {
+                player.ClearVelocity();
+            }
         }
     }
 
@@ -74,6 +83,15 @@ public class MovingPlatform : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.transform.parent = null;
+            Player player = other.GetComponent<Player>();
+            if (player == null)
+            {
+                Debug.LogError("Moving Platform could not locate Player component on the leaving object.");
+            }
+            else
+            {
+                player.AddVelocity((-transform.position+_currentTarget).normalized*_speed);
+            }
         }
     }
 }

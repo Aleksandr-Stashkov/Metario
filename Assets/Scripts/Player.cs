@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private float _speed = 7f;
     private float _gravity = 0.5f;
     private float _jumpSpeed = 17f;
-    private float _verticalVelocity;
+    private float _verticalVelocity, _horizontalVelocity;
     private bool _isInJump = false;
     private Vector3 _respawnPosition;
 
@@ -80,6 +80,27 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        Movement();  
+
+        if (transform.position.y < -7f)
+        {
+            _lives--;
+            if (_lives <= 0)
+            {
+
+            }
+            else
+            {
+                transform.position = _respawnPosition;
+                _verticalVelocity = 0f;
+                _horizontalVelocity = 0f;
+                _UI_Manager.UpdateLives(_lives);
+            }
+        }
+    }    
+
+    private void Movement()
+    {
         if (_charaterController.isGrounded)
         {
             if (_isInJump)
@@ -102,31 +123,30 @@ public class Player : MonoBehaviour
             }
             _verticalVelocity -= _gravity;
         }
-    }
 
-    private void FixedUpdate()
-    {
-       _charaterController.Move(new Vector3(Input.GetAxis("Horizontal") * _speed * Time.deltaTime, _verticalVelocity * Time.deltaTime));
-
-        if (transform.position.y < -7f)
+        float horizontalInput = Input.GetAxis("Horizontal");
+        if (horizontalInput != 0)
         {
-            _lives--;
-            if (_lives <= 0)
-            {
-                
-            }
-            else
-            {
-                transform.position = _respawnPosition;
-                _verticalVelocity = 0f;
-                _UI_Manager.UpdateLives(_lives);
-            }
+            _horizontalVelocity = horizontalInput * _speed;
         }
+        _charaterController.Move(new Vector3(_horizontalVelocity * Time.deltaTime, _verticalVelocity * Time.deltaTime));
     }
 
     public void AddStar()
     {
         _starCount++;
         _UI_Manager.UpdateScore(_starCount);
+    }
+
+    public void AddVelocity(Vector3 velocity)
+    {
+        _horizontalVelocity = velocity.x;
+        _verticalVelocity += velocity.y;
+    }
+
+    public void ClearVelocity()
+    {
+        _horizontalVelocity = 0f;
+        _verticalVelocity = 0f;
     }
 }

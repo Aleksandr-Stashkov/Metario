@@ -1,2 +1,2 @@
 # Metario
- Meta Mario-style platformer
+ Meta Mario-style platformer (part of a Udemy course)
